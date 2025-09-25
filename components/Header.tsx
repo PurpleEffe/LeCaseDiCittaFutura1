@@ -1,7 +1,7 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
 
-const Header: React.FC = () => {
+const Header = () => {
   const { state, dispatch } = useContext(AppContext);
   const { currentUser } = state;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -40,8 +40,8 @@ const Header: React.FC = () => {
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div onClick={goHome} className="cursor-pointer">
-          {/* Corrected path to be relative from the root and added explicit dimensions */}
-          <img src="./logo.png" alt="Riace Città Futura Logo" width="187" height="48" style={{height: '48px'}} />
+          {/* Corrected path to be relative from the public root for Vite */}
+          <img src="/logo.png" alt="Riace Città Futura Logo" width="187" height="48" style={{height: '48px'}} />
         </div>
         <nav className="flex items-center space-x-6">
           <button onClick={goHome} className="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-bold text-lg">

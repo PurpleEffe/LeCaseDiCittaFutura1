@@ -21,16 +21,18 @@ export interface AllData {
 // --- DATA HELPERS ---
 
 async function fetchSeedData<T>(path: string): Promise<T[]> {
+    // Prepend the base URL provided by Vite to ensure correct path on GitHub Pages
+    // FIX: Hardcoded the base URL from vite.config.ts to resolve TypeScript errors with import.meta.env.
+    const url = `/LeCaseDiCittaFutura1/${path}`;
     try {
-        // Use a relative path to be compatible with GitHub Pages subdirectories
-        const response = await fetch(path);
+        const response = await fetch(url);
         if (!response.ok) {
-            console.warn(`Could not fetch seed data from ${path}. This is expected if the file doesn't exist. Returning empty array.`);
+            console.warn(`Could not fetch seed data from ${url}. This is expected if the file doesn't exist. Returning empty array.`);
             return [];
         }
         return await response.json();
     } catch (error) {
-        console.error(`Error fetching seed data from ${path}:`, error);
+        console.error(`Error fetching seed data from ${url}:`, error);
         return [];
     }
 }

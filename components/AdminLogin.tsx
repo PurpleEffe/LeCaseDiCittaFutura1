@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext, type FormEvent } from 'react';
 import { AppContext } from '../context/AppContext';
 
 type AuthMode = 'login' | 'register' | 'forgotPassword';
 
-const AuthPage: React.FC = () => {
+const AuthPage = () => {
   const [mode, setMode] = useState<AuthMode>('login');
   const { actions } = useContext(AppContext);
 
@@ -15,7 +15,7 @@ const AuthPage: React.FC = () => {
   const [message, setMessage] = useState('');
 
   // FIX: Make handler async and await the action promise for proper error handling.
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
     const success = await actions.login(email, password);
@@ -25,7 +25,7 @@ const AuthPage: React.FC = () => {
   };
 
   // FIX: Correctly call the `register` action from context instead of dispatching a non-existent action.
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
     setMessage('');
@@ -49,7 +49,7 @@ const AuthPage: React.FC = () => {
   };
   
   // FIX: Make handler async and await the action promise for proper feedback.
-  const handleForgotPassword = async (e: React.FormEvent) => {
+  const handleForgotPassword = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
     setMessage('');

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, ReactNode, useEffect } from 'react';
+import { createContext, useReducer, useEffect, type ReactNode, type Dispatch, type FC } from 'react';
 import { House, Reservation, User } from '../types';
 import * as apiService from '../services/api';
 
@@ -92,7 +92,7 @@ const appReducer = (state: AppState, action: Action): AppState => {
 // --- CONTEXT ---
 interface AppContextType {
   state: AppState;
-  dispatch: React.Dispatch<Action>;
+  dispatch: Dispatch<Action>;
   actions: {
     login: (email: string, pass: string) => Promise<boolean>;
     register: (payload: Omit<User, 'id' | 'role' | 'passwordHash'> & { password: string }) => Promise<boolean>;
@@ -124,7 +124,7 @@ export const AppContext = createContext<AppContextType>({
 
 
 // --- PROVIDER ---
-export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialAppState);
 
   useEffect(() => {

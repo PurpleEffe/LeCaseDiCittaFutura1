@@ -1,31 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, type FC } from 'react';
 import { AppContext } from '../context/AppContext';
 import { House, Reservation } from '../types';
 import HouseForm from './HouseForm';
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
 
-const AdminDashboard: React.FC = () => {
-  // FIX: Actively wait for the DayPicker library to load
-  const [DayPicker, setDayPicker] = useState<React.ComponentType<any> | null>(null);
 
-  useEffect(() => {
-    // Check if the component is already available
-    if ((window as any).ReactDayPicker?.DayPicker) {
-        setDayPicker(() => (window as any).ReactDayPicker.DayPicker);
-        return;
-    }
-
-    // If not, poll for it
-    const interval = setInterval(() => {
-        if ((window as any).ReactDayPicker?.DayPicker) {
-            setDayPicker(() => (window as any).ReactDayPicker.DayPicker);
-            clearInterval(interval);
-        }
-    }, 100); // Check every 100ms
-
-    // Cleanup on unmount
-    return () => clearInterval(interval);
-  }, []);
-
+const AdminDashboard = () => {
   const { state, actions } = useContext(AppContext);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [editingHouse, setEditingHouse] = useState<House | null>(null);
@@ -83,7 +64,7 @@ const AdminDashboard: React.FC = () => {
     }
   };
   
-  const StatCard: React.FC<{icon: string; label: string; value: number | string; gradient: string; onClick?: () => void}> = ({icon, label, value, gradient, onClick}) => {
+  const StatCard: FC<{icon: string; label: string; value: number | string; gradient: string; onClick?: () => void}> = ({icon, label, value, gradient, onClick}) => {
       const isClickable = !!onClick;
       const baseClasses = `p-6 rounded-xl shadow-lg flex items-center space-x-4 text-white ${gradient}`;
       const clickableClasses = isClickable ? 'cursor-pointer transform hover:-translate-y-1 transition-transform' : '';
@@ -237,18 +218,12 @@ const AdminDashboard: React.FC = () => {
                 <h3 className="text-2xl font-bold text-gray-800 mb-4">Gestisci Date Bloccate per <br/>"{managingDatesFor.name}"</h3>
                 <p className="text-slate-600 mb-4 text-sm">Seleziona le date da rendere non disponibili per le prenotazioni (es. ferie, manutenzione). Clicca di nuovo su una data per deselezionarla.</p>
                 <div className="flex justify-center border bg-slate-50 rounded-md p-2 min-h-[300px]">
-                    {DayPicker ? (
-                        <DayPicker
-                            mode="multiple"
-                            min={0} // Allows clearing selection
-                            selected={selectedBlockedDays}
-                            onSelect={setSelectedBlockedDays as any}
-                        />
-                    ) : (
-                        <div className="flex items-center justify-center h-full">
-                           <p className="text-slate-500">Caricamento calendario...</p>
-                        </div>
-                    )}
+                    <DayPicker
+                        mode="multiple"
+                        min={0} // Allows clearing selection
+                        selected={selectedBlockedDays}
+                        onSelect={(days) => setSelectedBlockedDays(days || [])}
+                    />
                 </div>
                 <div className="flex justify-end space-x-4 mt-6">
                     <button onClick={() => setManagingDatesFor(null)} className="px-6 py-2 bg-slate-200 text-slate-800 rounded-md hover:bg-slate-300 font-semibold">Annulla</button>

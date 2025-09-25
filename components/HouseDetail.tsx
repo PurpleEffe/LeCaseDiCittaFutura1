@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState, type FC } from 'react';
 import { House } from '../types';
 import ReservationForm from './ReservationForm';
 import HouseForm from './HouseForm';
@@ -8,7 +8,7 @@ interface HouseDetailProps {
   house: House;
 }
 
-const HouseDetail: React.FC<HouseDetailProps> = ({ house }) => {
+const HouseDetail: FC<HouseDetailProps> = ({ house }) => {
   const [mainImage, setMainImage] = useState(house.images[0]);
   const [showEditForm, setShowEditForm] = useState(false);
   const { state, dispatch } = useContext(AppContext);

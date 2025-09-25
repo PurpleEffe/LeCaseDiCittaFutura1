@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, type FC, type ChangeEvent, type FormEvent } from 'react';
 import { AppContext } from '../context/AppContext';
 import { House } from '../types';
 
@@ -17,7 +17,7 @@ const fileToBase64 = (file: File): Promise<string> => {
     });
 };
 
-const HouseForm: React.FC<HouseFormProps> = ({ initialData, onClose }) => {
+const HouseForm: FC<HouseFormProps> = ({ initialData, onClose }) => {
   // FIX: Use `actions` from context to perform operations, instead of dispatching incorrect action types.
   const { actions } = useContext(AppContext);
   const [houseData, setHouseData] = useState({
@@ -44,12 +44,12 @@ const HouseForm: React.FC<HouseFormProps> = ({ initialData, onClose }) => {
 
   const isEditing = !!initialData;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setHouseData(prev => ({ ...prev, [name]: name === 'capacity' ? parseInt(value) || 0 : value }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
         const files = Array.from(e.target.files);
         setFilesToUpload(prev => [...prev, ...files]);
@@ -75,7 +75,7 @@ const HouseForm: React.FC<HouseFormProps> = ({ initialData, onClose }) => {
   };
 
   // FIX: Refactored to use async actions from context and provide the correct payload.
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     

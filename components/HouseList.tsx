@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import HouseCard from './HouseCard';
 
-const HouseList: React.FC = () => {
+const HouseList = () => {
   const { state } = useContext(AppContext);
 
   return (

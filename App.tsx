@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { AppContext } from './context/AppContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -7,7 +7,7 @@ import HouseDetail from './components/HouseDetail';
 import AuthPage from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
 
-const App: React.FC = () => {
+const App = () => {
   const { state } = useContext(AppContext);
   const { currentView, selectedHouse, currentUser, loading, error } = state;
 

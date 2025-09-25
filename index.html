@@ -2,7 +2,7 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Le Case Di Città Futura - Riace</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -10,9 +10,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <!-- React Day Picker styles -->
-    <link rel="stylesheet" href="https://unpkg.com/react-day-picker/dist/style.css" />
-    <script src="https://unpkg.com/react-day-picker/dist/index.umd.js"></script>
     <style>
       body {
         background-color: #f8fafc; /* slate-50 */
@@ -45,13 +42,20 @@
   "imports": {
     "react/": "https://aistudiocdn.com/react@^19.1.1/",
     "react": "https://aistudiocdn.com/react@^19.1.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/"
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react-router-dom": "https://esm.sh/react-router-dom@6.23.1",
+    "react-day-picker": "https://esm.sh/react-day-picker@8.10.1",
+    "react-day-picker/dist/style.css": "https://esm.sh/react-day-picker@8.10.1/dist/style.css",
+    "date-fns": "https://esm.sh/date-fns@2.30.0",
+    "react-day-picker/": "https://aistudiocdn.com/react-day-picker@^9.11.0/",
+    "vite": "https://aistudiocdn.com/vite@^7.1.7",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.0.3"
   }
 }
 </script>
 </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+    <script type="module" src="index.tsx"></script>
   </body>
 </html>

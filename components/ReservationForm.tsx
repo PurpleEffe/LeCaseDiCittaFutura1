@@ -1,6 +1,10 @@
-import React, { useState, useContext, useEffect, useMemo } from 'react';
+import { useState, useContext, useEffect, useMemo, type FC } from 'react';
 import { House } from '../types';
 import { AppContext } from '../context/AppContext';
+// FIX: Import `DateRange` type for proper state typing with DayPicker in range mode.
+import { DayPicker, type DateRange } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
+
 
 // Helper to format date to YYYY-MM-DD
 const formatDate = (date: Date | undefined) => {
@@ -12,34 +16,12 @@ interface ReservationFormProps {
   house: House;
 }
 
-const ReservationForm: React.FC<ReservationFormProps> = ({ house }) => {
-  // FIX: Actively wait for the DayPicker library to load
-  const [DayPicker, setDayPicker] = useState<React.ComponentType<any> | null>(null);
-  
-  useEffect(() => {
-    // Check if the component is already available
-    if ((window as any).ReactDayPicker?.DayPicker) {
-        setDayPicker(() => (window as any).ReactDayPicker.DayPicker);
-        return;
-    }
-
-    // If not, poll for it
-    const interval = setInterval(() => {
-        if ((window as any).ReactDayPicker?.DayPicker) {
-            setDayPicker(() => (window as any).ReactDayPicker.DayPicker);
-            clearInterval(interval);
-        }
-    }, 100); // Check every 100ms
-
-    // Cleanup on unmount
-    return () => clearInterval(interval);
-  }, []);
-
-
+const ReservationForm: FC<ReservationFormProps> = ({ house }) => {
   const { state, dispatch, actions } = useContext(AppContext);
   const { currentUser, reservations } = state;
 
-  const [range, setRange] = useState<{from?: Date, to?: Date}>({});
+  // FIX: Initialize `range` state to `undefined` and use `DateRange` type to match `DayPicker`'s `selected` prop in range mode.
+  const [range, setRange] = useState<DateRange | undefined>(undefined);
   const [formData, setFormData] = useState({
     guestName: '',
     guestEmail: '',
@@ -96,7 +78,8 @@ const ReservationForm: React.FC<ReservationFormProps> = ({ house }) => {
         dispatch({ type: 'SET_VIEW', payload: 'login' });
         return;
     }
-    if (!range.from || !range.to) {
+    // FIX: Check if `range` itself is defined before accessing its properties.
+    if (!range || !range.from || !range.to) {
         alert("Per favore, seleziona un intervallo di date dal calendario.");
         return;
     }
@@ -145,21 +128,15 @@ const ReservationForm: React.FC<ReservationFormProps> = ({ house }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start max-w-5xl mx-auto">
         {/* Calendar */}
         <div className="bg-slate-50 p-4 rounded-lg flex justify-center border min-h-[300px]">
-          {DayPicker ? (
-            <DayPicker
-                mode="range"
-                selected={range}
-                onSelect={setRange}
-                disabled={disabledDays}
-                modifiers={modifiers}
-                modifiersStyles={modifiersStyles}
-                numberOfMonths={1}
-            />
-          ) : (
-            <div className="flex items-center justify-center h-full">
-              <p className="text-slate-500">Caricamento calendario...</p>
-            </div>
-          )}
+          <DayPicker
+              mode="range"
+              selected={range}
+              onSelect={setRange}
+              disabled={disabledDays}
+              modifiers={modifiers}
+              modifiersStyles={modifiersStyles}
+              numberOfMonths={1}
+          />
         </div>
 
         {/* Form */}
@@ -172,7 +149,8 @@ const ReservationForm: React.FC<ReservationFormProps> = ({ house }) => {
             <div>
               <label className="block text-md font-bold text-slate-700 mb-1">Date Selezionate</label>
               <div className="p-4 bg-slate-100 border border-slate-300 rounded-lg text-lg">
-                {range.from && range.to ? `${formatDate(range.from)} - ${formatDate(range.to)}` : 'Nessun intervallo selezionato'}
+                {/* FIX: Check if `range` is defined before accessing its properties. */}
+                {range && range.from && range.to ? `${formatDate(range.from)} - ${formatDate(range.to)}` : 'Nessun intervallo selezionato'}
               </div>
             </div>
             <div>

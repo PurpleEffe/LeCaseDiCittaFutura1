@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext, type FC } from 'react';
 import { House } from '../types';
 import { AppContext } from '../context/AppContext';
 
@@ -6,7 +6,7 @@ interface HouseCardProps {
   house: House;
 }
 
-const HouseCard: React.FC<HouseCardProps> = ({ house }) => {
+const HouseCard: FC<HouseCardProps> = ({ house }) => {
   const { dispatch } = useContext(AppContext);
 
   const handleSelectHouse = () => {
