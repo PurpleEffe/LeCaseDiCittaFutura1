@@ -1,0 +1,5 @@
+{
+  "name": "Copy of Le Case Di Città Futura",
+  "description": "A web application for booking houses from the Città Futura association in Riace. This non-profit platform allows users to view available houses and request a stay, while an admin panel facilitates the management of properties and reservations.",
+  "requestFramePermissions": []
+}
